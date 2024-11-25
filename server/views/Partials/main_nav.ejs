@@ -1,7 +1,7 @@
 <!--NavBar-->
-<nav class="navbar navbar-expand-lg navbar-light bg-gray-blue">
+<nav class="navbar navbar-expand-lg navbar-light bg-burnt-orange">
     <div class="container-fluid">
-      <a class="navbar-brand" href="/">INFR3120 Project</a>
+      <a class="navbar-brand" href="/">CartOrg</a>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
@@ -29,7 +29,7 @@
             <% } else {%>
               <a class="nav-link" href="/products">
             <% } %>    
-              <i class="fa-brands fa-elementor"></i> Products</a>
+              <i class="fa-solid fa-box-open"></i> Products</a>
           </li>
           <li class="nav-item">
             <% if(title=="Service") { %>
@@ -37,10 +37,11 @@
             <% } else {%> 
               <a class="nav-link" href="/service">
             <% } %>  
-                <i class="fa-solid fa-gears"></i> Service</a>
+              <i class="fa-solid fa-hand-holding-heart"></i> Service</a>
           </li>
           <li class="nav-item">
-            <% if(title=="Grocerys") { %>
+            <% if(title=="Grocery List" || title=="Add Grocery Items" || 
+              title=="Edit Grocery Items") { %>
               <a class="nav-link active" href="/grocerylist">
             <% } else {%>
               <a class="nav-link" href="/grocerylist">
@@ -53,7 +54,7 @@
           <% } else {%>  
             <a class="nav-link" href="/contactus">
           <% } %> 
-          <i class="fa-solid fa-address-card"></i> ContactUs</a>
+            <i class="fa-solid fa-phone-volume"></i> ContactUs</a>
           </li>
         </ul>
       </div>
