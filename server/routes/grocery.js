@@ -3,8 +3,9 @@ var router = express.Router();
 let mongoose = require('mongoose');
 // telling my router that I have this model
 let Grocery = require('../model/grocery.js');
-const grocery = require('../model/grocery.js');
-let groceryController = require('../controllers/grocery.js')
+let groceryController = require('../controllers/grocery.js');
+
+const authenticateToken = require('../middleware/auth');
 /* Get route for the grocery list - Read Operation */
 /*
 GET,
@@ -17,7 +18,8 @@ try{
     const GroceryList = await Grocery.find();
     res.render('Grocery/list',{
         title:'Grocery List',
-        GroceryList:GroceryList
+        GroceryList:GroceryList,
+        user
     })}
     catch(err){
         console.error(err);
