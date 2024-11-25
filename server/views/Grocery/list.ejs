@@ -4,7 +4,11 @@
 <main class="container">
   <div class="row">
     <div class="col-12 mb-3">
-      <a href="/grocerylist/add" class="btn btn-success btn-sm" style="margin-top: 2%;">Add New Item</a>
+      <% if (user) { %>
+        <a href="/grocerylist/add" class="btn btn-success btn-sm" style="margin-top: 2%;">Add New Item</a>
+      <% } else { %>
+        <p class="text-muted btn btn-info">Please Log In to Manage your Grocery List</p>
+      <% } %>
     </div>
     <% if (GroceryList && GroceryList.length > 0) { %>
       <% GroceryList.forEach(item => { %>
@@ -19,8 +23,10 @@
                 <p class="card-text"><b>Notes:</b> <%= item.Notes || 'No notes available' %></p>
               </div>
               <div>
-                <a href="/grocerylist/edit/<%= item._id %>" class="btn btn-primary btn-sm">Edit</a>
-                <a href="/grocerylist/delete/<%= item._id %>" class="btn btn-danger btn-sm" onclick="return confirmDelete();">Delete</a>
+                <% if (user) { %>
+                  <a href="/grocerylist/edit/<%= item._id %>" class="btn btn-primary btn-sm">Edit</a>
+                  <a href="/grocerylist/delete/<%= item._id %>" class="btn btn-danger btn-sm" onclick="return confirmDelete();">Delete</a>
+                <% } %>
               </div>
             </div>
           </div>

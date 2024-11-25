@@ -19,7 +19,7 @@ try{
     res.render('Grocery/list',{
         title:'Grocery List',
         GroceryList:GroceryList,
-        user
+        user: req.user
     })}
     catch(err){
         console.error(err);
@@ -29,7 +29,7 @@ try{
     }
     });
 /* Create Operation --> Get route for displaying me the Add Page */
-router.get('/add',async(req,res,next)=>{
+router.get('/add', authenticateToken, async(req,res,next)=>{
     try{
         res.render('Grocery/add',{
             title: 'Add Grocery Items'
@@ -44,7 +44,7 @@ router.get('/add',async(req,res,next)=>{
     }
 });
 /* Create Operation --> Post route for processing the Add Page */
-router.post('/add',async(req,res,next)=>{
+router.post('/add', authenticateToken, async(req,res,next)=>{
     try{
         let newGrocery = Grocery({
             "Name": req.body.Name,
@@ -67,7 +67,7 @@ router.post('/add',async(req,res,next)=>{
     }
 });
 /* Update Operation --> Get route for displaying me the Edit Page */
-router.get('/edit/:id',async(req,res,next)=>{
+router.get('/edit/:id',authenticateToken, async(req,res,next)=>{
     try{
         const id = req.params.id;
         const groceryToEdit= await Grocery.findById(id);
@@ -85,7 +85,7 @@ router.get('/edit/:id',async(req,res,next)=>{
     }
 });
 /* Update Operation --> Post route for processing the Edit Page */ 
-router.post('/edit/:id',async(req,res,next)=>{
+router.post('/edit/:id', authenticateToken, async(req,res,next)=>{
     try{
         let id=req.params.id;
         let updatedGrocery = Grocery({
@@ -109,7 +109,7 @@ router.post('/edit/:id',async(req,res,next)=>{
     }
 });
 /* Delete Operation --> Get route to perform Delete Operation */
-router.get('/delete/:id',async(req,res,next)=>{
+router.get('/delete/:id', authenticateToken, async(req,res,next)=>{
     try{
         let id=req.params.id;
         Grocery.deleteOne({_id:id}).then(()=>{
