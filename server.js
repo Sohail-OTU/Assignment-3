@@ -7,6 +7,7 @@
 var app = require('./server/config/app');
 var debug = require('debug')('infrproject:server');
 var http = require('http');
+require('dotenv').config();
 
 /**
  * Get port from environment and store in Express.

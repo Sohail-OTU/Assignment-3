@@ -13,4 +13,4 @@ function authenticateToken(req,res,next) {
     });
 };
 
-module.exports = authenticatetoken;
+module.exports = authenticateToken;

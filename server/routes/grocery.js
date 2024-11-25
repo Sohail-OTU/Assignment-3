@@ -73,7 +73,7 @@ router.get('/edit/:id',authenticateToken, async(req,res,next)=>{
         const id = req.params.id;
         const groceryToEdit= await Grocery.findOne({_id: id, createdBy: req.user.id});
         if (!groceryToEdit) {
-            return res.status(403).send('You are not authorized to edit.')
+            return res.status(403).send('You are not authorized to edit!')
         };
         res.render('Grocery/edit',
             {
@@ -93,7 +93,8 @@ router.post('/edit/:id', authenticateToken, async(req,res,next)=>{
     try{
         let id=req.params.id;
         let updatedGrocery = Grocery({
-            "_id":id,
+            "_id": id,
+            "createdBy": req.user.id,
             "Name": req.body.Name,
             "Quantity": req.body.Quantity,
             "Category": req.body.Category,
@@ -101,9 +102,11 @@ router.post('/edit/:id', authenticateToken, async(req,res,next)=>{
             "Priority": req.body.Priority,
             "Price": req.body.Price
         });
-        Grocery.findByIdAndUpdate(id,updatedGrocery, {new: true}).then(()=>{
-            res.redirect('/grocerylist')
-        })
+        Grocery.findByIdAndUpdate(id, updatedGrocery, {new: true})
+        if (!grocery) {
+            return res.status(403).send('You are not authorized to edit this Item!');
+        }
+        res.redirect('/grocerylist')
     }
     catch(err){
         console.error(err);
@@ -116,9 +119,11 @@ router.post('/edit/:id', authenticateToken, async(req,res,next)=>{
 router.get('/delete/:id', authenticateToken, async(req,res,next)=>{
     try{
         let id=req.params.id;
-        Grocery.deleteOne({_id:id, createdBy: req.user.id}).then(()=>{
-            res.redirect('/grocerylist')
-        })
+        Grocery.deleteOne({_id:id, createdBy: req.user.id});
+        if (!grocery) {
+            return res.status(403).send('You are not authorized to delete this item!')
+        };
+        res.redirect('/grocerylist')
     }
     catch(error){
         console.error(err);
