@@ -8,7 +8,8 @@ let groceryModel = mongoose.Schema({
     Category: String,
     Notes: String,
     Priority: String,
-    Price: Number
+    Price: Number,
+    createdBy: { type: mongoose.Schema.Types.ObjectId, ref: 'User' }
 },
 {
     collection:"grocerylist"
