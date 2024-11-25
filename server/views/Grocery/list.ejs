@@ -14,13 +14,13 @@
               <div>
                 <h5 class="card-title"><%= item.Name %></h5>
                 <p class="card-text">
-                  <b>Quantity:</b> <%= item.Quantity %> | <b>Category:</b> <%= item.Category %> | <b>Priority:</b> <%= item.Priority || 'None' %> | <b>Price:</b> $ <%= item.Price || 'Unkown' %>
+                  <b>Quantity:</b> <%= item.Quantity %> | <b>Category:</b> <%= item.Category %> | <b>Priority:</b> <%= item.Priority || 'None' %> | <b>Price:</b> $<%= item.Price || 'Unkown' %>
                 </p>
                 <p class="card-text"><b>Notes:</b> <%= item.Notes || 'No notes available' %></p>
               </div>
               <div>
                 <a href="/grocerylist/edit/<%= item._id %>" class="btn btn-primary btn-sm">Edit</a>
-                <a href="/grocerylist/delete/<%= item._id %>" class="btn btn-danger btn-sm">Delete</a>
+                <a href="/grocerylist/delete/<%= item._id %>" class="btn btn-danger btn-sm" onclick="return confirmDelete();">Delete</a>
               </div>
             </div>
           </div>
