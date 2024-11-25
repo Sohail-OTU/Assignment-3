@@ -9,6 +9,7 @@ let app = express();
 let indexRouter = require('../routes/index');
 let usersRouter = require('../routes/users');
 let groceryRouter = require('../routes/grocery');
+let authRouter = require('../routes/auth');
 
 
 // view engine setup
@@ -48,6 +49,7 @@ app.use(express.static(path.join(__dirname, '../../node_modules')));
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/grocerylist',groceryRouter);
+app.use('/auth', authRouter);
 // /project --> projectrouter
 // /contactus --> contactus
 

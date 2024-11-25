@@ -1,1 +1,0 @@
-module.exports={"URI":"mongodb+srv://sohailbaig:LIT3msDSPBsmTih6@cluster0.3qlql.mongodb.net/Assignment-3-grocery"}
