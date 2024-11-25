@@ -5,7 +5,7 @@ let mongoose = require('mongoose');
 let Grocery = require('../model/grocery.js');
 let groceryController = require('../controllers/grocery.js');
 
-const authenticateToken = require('../middleware/auth');
+const authenticateToken = require('../../middleware/auth');
 /* Get route for the grocery list - Read Operation */
 /*
 GET,
@@ -52,7 +52,8 @@ router.post('/add', authenticateToken, async(req,res,next)=>{
             "Category": req.body.Category,
             "Notes": req.body.Notes,
             "Priority": req.body.Priority,
-            "Price": req.body.Price
+            "Price": req.body.Price,
+            "createdBy": req.user.id
         });
         Grocery.create(newGrocery).then(()=>{
             res.redirect('/grocerylist');
@@ -70,7 +71,10 @@ router.post('/add', authenticateToken, async(req,res,next)=>{
 router.get('/edit/:id',authenticateToken, async(req,res,next)=>{
     try{
         const id = req.params.id;
-        const groceryToEdit= await Grocery.findById(id);
+        const groceryToEdit= await Grocery.findOne({_id: id, createdBy: req.user.id});
+        if (!groceryToEdit) {
+            return res.status(403).send('You are not authorized to edit.')
+        };
         res.render('Grocery/edit',
             {
                 title:'Edit Grocery Items',
@@ -112,7 +116,7 @@ router.post('/edit/:id', authenticateToken, async(req,res,next)=>{
 router.get('/delete/:id', authenticateToken, async(req,res,next)=>{
     try{
         let id=req.params.id;
-        Grocery.deleteOne({_id:id}).then(()=>{
+        Grocery.deleteOne({_id:id, createdBy: req.user.id}).then(()=>{
             res.redirect('/grocerylist')
         })
     }
