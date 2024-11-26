@@ -96,19 +96,21 @@ router.get('/edit/:id',authenticateToken, async(req,res,next)=>{
 /* Update Operation --> Post route for processing the Edit Page */ 
 router.post('/edit/:id', authenticateToken, async(req,res,next)=>{
     try{
+        console.log('Form Submitted: ', req.body); // Debug form data
+        console.log('Editing Grocery ID: ', req.params.id);
+
         let id=req.params.id;
-        let updatedGrocery = Grocery({
-            "_id": id,
-            "createdBy": req.user.id,
-            "Name": req.body.Name,
-            "Quantity": req.body.Quantity,
-            "Category": req.body.Category,
-            "Notes": req.body.Notes,
-            "Priority": req.body.Priority,
-            "Price": req.body.Price
+        const updatedGrocery = await Grocery.findOneAndUpdate(
+            { _id:id, createdBy: req.user.id },
+            {
+                Name: req.body.Name,
+                Quantity: req.body.Quantity,
+                Category: req.body.Category,
+                Notes: req.body.Notes,
+                Priority: req.body.Priority,
+                Price: req.body.Price,
         });
-        Grocery.findByIdAndUpdate(id, updatedGrocery, {new: true})
-        if (!grocery) {
+        if (!updatedGrocery) {
             return res.status(403).send('You are not authorized to edit this Item!');
         }
         res.redirect('/grocerylist')
@@ -124,13 +126,20 @@ router.post('/edit/:id', authenticateToken, async(req,res,next)=>{
 router.get('/delete/:id', authenticateToken, async(req,res,next)=>{
     try{
         let id=req.params.id;
-        Grocery.deleteOne({_id:id, createdBy: req.user.id});
-        if (!grocery) {
-            return res.status(403).send('You are not authorized to delete this item!')
+        console.log('Deleting Grocery ID:', id);
+
+        const deletedGrocery = await Grocery.findOneAndDelete({
+            _id: id,
+            createdBy: req.user.id,
+        });
+
+        if (!deletedGrocery) {
+            return res.status(403).send('You are not authorized to delete this item!');
         };
+
         res.redirect('/grocerylist')
     }
-    catch(error){
+    catch(err){
         console.error(err);
         res.render('Grocery/list',{
             error:'Error on the server'

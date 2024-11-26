@@ -56,14 +56,22 @@
           <% } %> 
             <i class="fa-solid fa-phone-volume"></i> ContactUs</a>
           </li>
-          <li class="nav-item">
-            <% if(title=="Login") { %>
-              <a class="nav-link active" href="/login">
-            <% } else { %>
-              <a class="nav-link" href="/login">
-            <% } %>
-            <i class="fa-solid fa-lock"></i> Login</a>
-          </li>
+          <% if (typeof user !== 'undefined' && user) { %>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">
+                <i class="fa-solid fa-right-from-bracket"></i> Logout
+              </a>
+            </li>
+          <% } else { %>
+            <li class="nav-item">
+              <% if(title=="Login") { %>
+                <a class="nav-link active" href="/login">
+              <% } else { %>
+                <a class="nav-link" href="/login">
+              <% } %>
+              <i class="fa-solid fa-lock"></i> Login</a>
+            </li>
+          <% } %>
         </ul>
       </div>
     </div>

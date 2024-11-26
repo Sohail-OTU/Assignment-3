@@ -41,18 +41,18 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, '../../public')));
 app.use(express.static(path.join(__dirname, '../../node_modules')));
 
+app.use(function(req, res, next){
+  res.locals.isAuthenticated = !!req.cookies.token; // Boolean for auth status
+  res.locals.user = req.user || null; // Pass user data if logged in
+  next();
+});
+
 app.use('/', indexRouter);
 app.use('/users', usersRouter);
 app.use('/grocerylist',groceryRouter);
 app.use('/', authRouter);
 app.use(checkAuthentication);
 console.log('Auth routes mounted at root');
-
-app.use(function(req, res, next){
-  res.locals.isAuthenticated = !!req.cookies.token; // Boolean for auth status
-  res.locals.user = req.user || null; // Pass user data if logged in
-  next();
-});
 
 // /project --> projectrouter
 // /contactus --> contactus
