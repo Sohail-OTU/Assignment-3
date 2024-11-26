@@ -7,7 +7,8 @@ const router =  express.Router();
 
 //Get route for displaying the Register Page
 router.get('/register', (req, res, next) => {
-    res.render('auth/register', { title: 'Register' });
+    console.log('GET /register route hit');
+    res.render('register', { title: 'Register' });
 });
 
 //Post route for processing Register Page
@@ -28,13 +29,15 @@ router.post('/register', async(req, res, next)=>{
     }
     catch(err) {
         res.status(400).send('Registration Failed');
+        res.redirect('/register');
     }
 });
 
 
 //Get route for displaying the Login Page
 router.get('/login', (req, res, next) => {
-    res.render('auth/login', { title: 'Login' });
+    console.log('GET /login route hit');
+    res.render('login', { title: 'Login' });
 });
 
 //Post route for processing the Login Page
@@ -51,6 +54,7 @@ router.post('/login', async(req,res,next)=>{
     }
     catch(err) {
         res.status(400).send('Login Failed');
+        res.redirect('/login')
     }
 });
 

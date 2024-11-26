@@ -7,7 +7,7 @@
       <% if (user) { %>
         <a href="/grocerylist/add" class="btn btn-success btn-sm" style="margin-top: 2%;">Add New Item</a>
       <% } else { %>
-        <a href="../login.ejs" class="text-muted btn btn-info">Please Log In to Manage your Grocery List</a>
+        <a href="/login" class="text-muted btn btn-info">Please Log In to Manage your Grocery List</a>
       <% } %>
     </div>
     <% if (GroceryList && GroceryList.length > 0) { %>
