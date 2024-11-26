@@ -13,14 +13,17 @@ Post,
 Put --> Edit/Update
 */
 /* Read Operation --> Get route for displaying the grocery list */
-router.get('/',async(req,res,next)=>{
+router.get('/', authenticateToken, async(req,res,next)=>{
 try{
-    const GroceryList = await Grocery.find();
+    const GroceryList = await Grocery.find({ createdBy: req.user.id });
+    console.log('User ID:', req.user.id);
     res.render('Grocery/list',{
         title:'Grocery List',
         GroceryList:GroceryList,
-        user: req.user
-    })}
+        user: req.user,
+    });
+    }
+
     catch(err){
         console.error(err);
         res.render('Grocery/list',{
@@ -32,8 +35,9 @@ try{
 router.get('/add', authenticateToken, async(req,res,next)=>{
     try{
         res.render('Grocery/add',{
-            title: 'Add Grocery Items'
-        })
+            title: 'Add Grocery Items',
+            user: req.user
+        });
     }
     catch(err)
     {
@@ -78,9 +82,10 @@ router.get('/edit/:id',authenticateToken, async(req,res,next)=>{
         res.render('Grocery/edit',
             {
                 title:'Edit Grocery Items',
-                Grocery:groceryToEdit
+                Grocery:groceryToEdit,
+                user: req.user,
             }
-        )
+        );
     }
     catch(err)
     {

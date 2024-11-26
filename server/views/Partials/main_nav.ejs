@@ -46,15 +46,23 @@
             <% } else {%>
               <a class="nav-link" href="/grocerylist">
             <% } %>  
-            <i class="fa-solid fa-cart-shopping"></i> Grocery List</a>
+            <i class="fa-solid fa-bag-shopping"></i> My Grocery List</a>
           </li>
-          <li class="nav-item"></li>
+          <li class="nav-item">
           <% if(title=="Contact Us") { %>
             <a class="nav-link active" href="/contactus">
           <% } else {%>  
             <a class="nav-link" href="/contactus">
           <% } %> 
             <i class="fa-solid fa-phone-volume"></i> ContactUs</a>
+          </li>
+          <li class="nav-item">
+            <% if(title=="Login") { %>
+              <a class="nav-link active" href="/login">
+            <% } else { %>
+              <a class="nav-link" href="/login">
+            <% } %>
+            <i class="fa-solid fa-lock"></i> Login</a>
           </li>
         </ul>
       </div>

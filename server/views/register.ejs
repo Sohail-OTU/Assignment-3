@@ -3,14 +3,21 @@
 <main class="container mt-5 d-flex justify-content-center">
     <div class="card shadow p-4" style="width: 400px;">
         <h1 class="text-center mb-4">Register</h1>
+
+        <% if (typeof errorMessage !== 'undefined') { %>
+            <div class="alert alert-danger" role="alert">
+                <%= errorMessage %>
+            </div>
+        <% } %>
+
         <form method="POST" action="/register">
             <div class="mb-3">
                 <label for="email" class="form-label">Email:</label>
-                <input type="email" name="email" id="email" class="form-control" required />
+                <input type="email" name="email" id="email" class="form-control" placeholder="Enter Your Email" required />
             </div>
             <div class="mb-3">
                 <label for="password" class="form-label">Password:</label>
-                <input type="password" name="password" id="password" class="form-control" required />
+                <input type="password" name="password" id="password" class="form-control" placeholder="Enter Your Password" required />
             </div>
             <button type="submit" class="btn btn-primary w-100">Register</button>
         </form>

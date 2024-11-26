@@ -5,6 +5,7 @@
   <div class="row">
     <div class="col-12 mb-3">
       <% if (user) { %>
+        <p>User Logged In: <%= user.id %></p>
         <a href="/grocerylist/add" class="btn btn-success btn-sm" style="margin-top: 2%;">Add New Item</a>
       <% } else { %>
         <a href="/login" class="text-muted btn btn-info">Please Log In to Manage your Grocery List</a>

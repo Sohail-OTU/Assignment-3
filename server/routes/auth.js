@@ -1,6 +1,6 @@
 const express =  require ('express');
 const jwt = require('jsonwebtoken');
-const bcrypt = require('../model/user');
+const bcrypt = require('bcryptjs');
 const User = require('../model/user');
 
 const router =  express.Router();
@@ -18,20 +18,23 @@ router.post('/register', async(req, res, next)=>{
 
         const existingUser = await User.findOne({ email });
         if (existingUser) {
-            return res.status(400).send('User already exists.');
+            return res.render('register', {
+                title: 'Register',
+                errorMessage: 'User already exists. Please try again.'
+            })
         }
-
-        const hashedPassword = await bcrypt.hash(password, 10);
-
-        const user = new User({ email, password: hashedPassword });
+        const user = new User({ email, password });
         await user.save();
+        console.log('User Registered Successfully:', email);
         res.redirect('/login')
-    }
+        }
     catch(err) {
-        res.status(400).send('Registration Failed');
-        res.redirect('/register');
-    }
-});
+        console.error(err);
+        res.render('register', {
+            title: 'Register',
+            errorMessage: 'Registration Failed. Please try again.',
+    });
+}});
 
 
 //Get route for displaying the Login Page
@@ -44,17 +47,40 @@ router.get('/login', (req, res, next) => {
 router.post('/login', async(req,res,next)=>{
     try {
         const {email, password} = req.body;
+
+        console.log('Login attempt:', email);
+
         const user = await User.findOne({email});
         if (!user || !(await bcrypt.compare(password, user.password))) {
-            return res.status(401).send('Invalid email or password.');
-        }
+            console.error('Login Failed: User not found');
+            return res.render('login', {
+                title: 'Login',
+                errorMessage: 'Invalid Email or Password. Try Again.'
+            });
+        };
+
+        console.log('User Found:', user.email);
+
+        const isPasswordMatch = await bcrypt.compare(password, user.password);
+        if (!isPasswordMatch) {
+            console.error('Login failed: Incorrect password');
+            return res.render('login', {
+                title: 'Login',
+                errorMessage: 'Invalid email or password.',
+            });
+        };
+
         const token = jwt.sign({id: user._id}, process.env.JWT_SECRET, {expiresIn: '1h'});
         res.cookie('token', token, {httpOnly: true});
+        console.log('User logged in successfully:', email);
         res.redirect('/grocerylist')
     }
     catch(err) {
-        res.status(400).send('Login Failed');
-        res.redirect('/login')
+        console.error(err);
+        res.render('login', {
+            title: 'Login',
+            errorMessage: 'Login Failed. Please try again.'
+        })
     }
 });
 
